@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DAL.DataAccess
 {
-    class EmployeeRepo : IEmployeeRepo<Employee>
+   public class EmployeeRepo : IEmployeeRepo<Employee>
     {
         public Employee AddEmployee(Employee employee)
         {
