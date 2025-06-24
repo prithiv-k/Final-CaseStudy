@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 
-// 🔐 JWT Authentication
+//  JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -33,13 +33,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 🔁 API Versioning
+//  API Versioning
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
-    options.ApiVersionReader = new UrlSegmentApiVersionReader(); // Use URL like /api/v1.0/controller
+    options.ApiVersionReader = new UrlSegmentApiVersionReader(); //  /api/v1.0/controller
 });
 
 // 🧪 Swagger with manual token entry
@@ -54,7 +54,7 @@ builder.Services.AddSwaggerGen(options =>
     // Accept plain JWT without auto Bearer prefix
     options.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
     {
-        Description = "Enter only the JWT token (without 'Bearer' prefix)",
+        Description = "Enter Token",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -77,7 +77,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// 🧩 Register your repositories
+//  Register your repositories
 builder.Services.AddScoped<IAuditLogRepo<AuditLog>, AuditLogRepo>();
 builder.Services.AddScoped<IBenefitRepo<Benefit>, BenefitRepo>();
 builder.Services.AddScoped<IEmployeeRepo<Employee>, EmployeeRepo>();
@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 🔧 Middleware: Prepend 'Bearer' to raw tokens
+//  Middleware: Prepend 'Bearer' to raw tokens
 app.Use(async (context, next) =>
 {
     var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
