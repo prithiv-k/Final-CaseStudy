@@ -4,20 +4,43 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Authorize(Roles = "Admin")]
-[ApiVersion("1.0")]
+[ApiVersion("9.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
 public class BenefitController : ControllerBase
 {
     private readonly IBenefitRepo<Benefit> _repo;
 
-    public BenefitController(IBenefitRepo<Benefit> repo)
+    public BenefitController(IBenefitRepo<Benefit> repo) // Dependency Injection for Benefit Repository
     {
         _repo = repo;
     }
 
-    [HttpGet("GetAll")] public IActionResult GetAll() => Ok(_repo.GetAllBenefits());
-    [HttpPost("Add")] public IActionResult Add(Benefit benefit) => Ok(_repo.AddBenefit(benefit));
-    [HttpPut("Update")] public IActionResult Update(Benefit benefit) => Ok(_repo.UpdateBenefit(benefit));
-    [HttpDelete("Delete")] public IActionResult Delete(Benefit benefit) => Ok(_repo.DeleteBenefit(benefit));
+    [HttpGet("GetAll")] // Get all benefits
+    public IActionResult GetAll()
+    {
+        var result = _repo.GetAllBenefits();
+        return Ok(result);
+    }
+
+    [HttpPost("Add")] // Add a new benefit
+    public IActionResult Add(Benefit benefit)
+    {
+        var result = _repo.AddBenefit(benefit);
+        return Ok(result);
+    }
+
+    [HttpPut("Update")] // Update an existing benefit
+    public IActionResult Update(Benefit benefit)
+    {
+        var result = _repo.UpdateBenefit(benefit);
+        return Ok(result);
+    }
+
+    [HttpDelete("Delete")] // Delete a benefit
+    public IActionResult Delete(Benefit benefit)
+    {
+        var result = _repo.DeleteBenefit(benefit);
+        return Ok(result);
+    }
 }

@@ -3,21 +3,44 @@ using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize(Roles = "Admin,Manager")]
-[ApiVersion("1.0")]
+[Authorize(Roles = "Manager,Employee")]
+[ApiVersion("7.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
 public class LeaveRequestController : ControllerBase
 {
     private readonly ILeaveRequestRepo<LeaveRequest> _repo;
 
-    public LeaveRequestController(ILeaveRequestRepo<LeaveRequest> repo)
+    public LeaveRequestController(ILeaveRequestRepo<LeaveRequest> repo) // Dependency Injection for the repository
     {
         _repo = repo;
     }
 
-    [HttpPost("Submit")] public IActionResult Submit(LeaveRequest req) => Ok(_repo.SubmitLeaveRequest(req));
-    [HttpPut("Approve or Reject")] public IActionResult ApproveOrReject(LeaveRequest req) => Ok(_repo.ApproveOrRejectLeaveRequest(req));
-    [HttpGet("employee/{id}")] public IActionResult GetByEmployee(int id) => Ok(_repo.GetLeaveRequestsByEmployeeId(id));
-    [HttpGet("GetAll")] public IActionResult GetAll() => Ok(_repo.GetAllLeaveRequests());
+    [HttpPost("Submit")] // Endpoint to submit a leave request
+    public IActionResult Submit(LeaveRequest req)
+    {
+        var result = _repo.SubmitLeaveRequest(req);
+        return Ok(result);
+    }
+
+    [HttpPut("Approve")] // Endpoint to approve or reject a leave request
+    public IActionResult ApproveOrReject(LeaveRequest req)
+    {
+        var result = _repo.ApproveOrRejectLeaveRequest(req);
+        return Ok(result);
+    }
+
+    [HttpGet("employee/{id}")] // Endpoint to get leave requests by employee ID
+    public IActionResult GetByEmployee(int id)
+    {
+        var result = _repo.GetLeaveRequestsByEmployeeId(id);
+        return Ok(result);
+    }
+
+    [HttpGet("GetAll")] // Endpoint to get all leave requests
+    public IActionResult GetAll()
+    {
+        var result = _repo.GetAllLeaveRequests();
+        return Ok(result);
+    }
 }

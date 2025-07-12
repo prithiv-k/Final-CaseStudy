@@ -9,25 +9,25 @@ using System.Text;
 
 namespace ServiceLayer.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Manager,Employee")]
     [ApiVersion("1.0")]
+    [ApiVersion("1")] // <-- Add this to support both
     [Route("api/v{version:apiVersion}/[controller]")]
-    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserRepo<User> _repo;
         private readonly IConfiguration _config;
 
-        public UserController(IUserRepo<User> repo, IConfiguration config)
+        public UserController(IUserRepo<User> repo, IConfiguration config) // Constructor injection for repository and configuration
         {
             _repo = repo;
             _config = config;
         }
 
-        // 🔐 Login
+        // Login
         [AllowAnonymous]
-        [HttpPost("validate")]
-        public IActionResult Validate(User user)
+        [HttpPost("ValidateUser")]
+        public IActionResult Validate([FromBody] User user)
         {
             var result = _repo.ValidateUser(user);
             if (result == null)
@@ -37,34 +37,23 @@ namespace ServiceLayer.Controllers
             return Ok(new { token, role = result.Role });
         }
 
-        // ➕ Register new user
-        [HttpPost("add")]
+        // Register new user
+        [HttpPost("Add")]
         public IActionResult Add(User user)
         {
             var addedUser = _repo.AddUser(user);
             return Ok(addedUser);
         }
 
-        // 📋 Get all users
-        [HttpGet("All")]
+        // Get all users
+        [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var users = _repo.GetAllUsers();
             return Ok(users);
         }
 
-        // ❌ Delete user
-        [HttpDelete("{id}/Delete")]
-        public IActionResult Delete(int id)
-        {
-            var deletedUser = _repo.DeleteUser(id);
-            if (deletedUser == null)
-                return NotFound("User not found");
-
-            return Ok("User deleted");
-        }
-
-        // 🛠️ Non-action method to generate JWT
+        // Non-action method to generate JWT
         [NonAction]
         private string GenerateJwtToken(User user)
         {

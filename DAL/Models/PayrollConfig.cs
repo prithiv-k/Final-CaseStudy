@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DAL.Models
 {
-    [Table("PayrollConfig")]
     public class PayrollConfig
     {
         [Key]
         public int ConfigId { get; set; }
 
+        [Required(ErrorMessage = "Employee is required")]
         public int EmployeeId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Allowances required")]
         public decimal Allowances { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Deductions required")]
         public decimal Deductions { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Tax rate required")]
         public decimal TaxRate { get; set; }
 
         [ForeignKey("EmployeeId")]
-        public virtual Employee Employee { get; set; }
+        [JsonIgnore] // ✅ Important to avoid JSON binding error
+        public virtual Employee? Employee { get; set; } // ✅ Make this nullable
     }
 }

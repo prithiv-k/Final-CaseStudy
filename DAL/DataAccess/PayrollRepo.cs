@@ -76,5 +76,20 @@ namespace DAL.DataAccess
                 return dbContext.Payrolls.ToList();
             }
         }
+
+        public Payroll VerifyPayroll(int payrollId)
+        {
+            using (var dbContext = new EasypayContext())
+            {
+                var existingPayroll = dbContext.Payrolls.FirstOrDefault(p => p.PayrollId == payrollId);
+                if (existingPayroll == null)
+                {
+                    return null;
+                }
+                dbContext.SaveChanges();
+                return existingPayroll;
+            }
+        }
+
     }
 }

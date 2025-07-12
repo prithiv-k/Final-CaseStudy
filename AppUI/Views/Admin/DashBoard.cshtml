@@ -1,0 +1,206 @@
+﻿@model List<AppUI.Models.Employee>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    var configs = ViewBag.PayrollConfigs as List<AppUI.Models.PayrollConfig> ?? new List<AppUI.Models.PayrollConfig>();
+    var payrollCount = ViewBag.PayrollCount ?? configs.Count;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap + Google Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f1f1f, #2c3e50);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #111;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: #f1c40f !important;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            background-color: #2e2e2e;
+        }
+
+        .card-title {
+            color: #f1c40f;
+        }
+
+        .table {
+            background-color: #1c1c1c;
+            color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+            .table thead {
+                background-color: #333;
+            }
+
+        .badge {
+            font-size: 0.85rem;
+        }
+
+        a.btn {
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        a.btn-info {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+
+        a.btn-warning {
+            background-color: #f39c12;
+            border-color: #f39c12;
+            color: black;
+        }
+
+        a.btn-danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        a.btn-outline-success,
+        a.btn-outline-primary {
+            border-width: 2px;
+        }
+
+        .text-muted {
+            color: #aaa !important;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #262626;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🔗 Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Payroll Admin</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Admin/Dashboard">Dashboard</a>
+                    </li>
+                </ul>
+                <a href="/Admin/Logout" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 🧾 Summary Cards -->
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card text-white shadow p-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Employees</h5>
+                        <p class="card-text display-6">@Model.Count</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-white shadow p-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Payroll Configs</h5>
+                        <p class="card-text display-6">@payrollCount</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 👥 Employee Payroll Config Status -->
+        <h4 class="mb-3 text-warning">Employee Payroll & Actions</h4>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Payroll Status</th>
+                        <th>Details</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var emp in Model)
+                    {
+                        var config = configs.FirstOrDefault(c => c.EmployeeId == emp.EmployeeId);
+                        <tr>
+                            <td>@emp.Name</td>
+                            <td>@emp.Department</td>
+                            <td>
+                                @if (config != null)
+                                {
+                                    <span class="badge bg-success">Configured</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Not Set</span>
+                                }
+                            </td>
+                            <td>
+                                @if (config != null)
+                                {
+                                    <div class="text-muted small">
+                                        Allow: ₹@config.Allowances<br />
+                                        Deduct: ₹@config.Deductions<br />
+                                        Tax: @config.TaxRate%
+                                    </div>
+                                }
+                                else
+                                {
+                                    <em class="text-muted">--</em>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a href="/Admin/ViewUser/@emp.EmployeeId" class="btn btn-sm btn-info me-1">View</a>
+                                <a href="/Admin/EditUser/@emp.EmployeeId" class="btn btn-sm btn-warning me-1">Edit</a>
+                                <a href="/Admin/DeleteUser/@emp.EmployeeId" class="btn btn-sm btn-danger me-1">Delete</a>
+
+                                @if (config != null)
+                                {
+                                    <a href="/Admin/CreatePayrollConfig?id=@config.ConfigId" class="btn btn-sm btn-outline-success">Edit Config</a>
+                                }
+                                else
+                                {
+                                    <a href="/Admin/CreatePayrollConfig?employeeId=@emp.EmployeeId" class="btn btn-sm btn-outline-primary">Add Config</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

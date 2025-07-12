@@ -12,6 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container
 builder.Services.AddControllers();
 
+//  Enable CORS for all origins, methods, and headers
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 //  JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -42,12 +53,12 @@ builder.Services.AddApiVersioning(options =>
     options.ApiVersionReader = new UrlSegmentApiVersionReader(); //  /api/v1.0/controller
 });
 
-// 🧪 Swagger with manual token entry
+// Swagger with manual token entry
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "EasyPay API",
+        Title = "Easypay API",
         Version = "v1.0"
     });
 
@@ -85,6 +96,7 @@ builder.Services.AddScoped<ILeaveRequestRepo<LeaveRequest>, LeaveRequestRepo>();
 builder.Services.AddScoped<INotificationRepo<Notification>, NotificationRepo>();
 builder.Services.AddScoped<IPayrollConfigRepo<PayrollConfig>, PayrollConfigRepo>();
 builder.Services.AddScoped<IPayrollRepo<Payroll>, PayrollRepo>();
+builder.Services.AddScoped<IReportRepo, ReportRepo>();
 builder.Services.AddScoped<ITimesheetRepo<Timesheet>, TimesheetRepo>();
 builder.Services.AddScoped<IUserRepo<User>, UserRepo>();
 
@@ -96,7 +108,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyPay API v1.0");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Easypay API v1.0");
     });
 }
 
@@ -113,6 +125,7 @@ app.Use(async (context, next) =>
     await next();
 });
 
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 

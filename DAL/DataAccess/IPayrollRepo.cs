@@ -14,5 +14,6 @@ namespace DAL.DataAccess
         T DeletePayroll(T payroll);
         List<T> GetPayrollsByEmployeeId(int employeeId);
         List<T> GetAllPayrolls();
+        T VerifyPayroll(int payrollId);
     }
 }

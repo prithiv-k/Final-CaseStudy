@@ -1,0 +1,32 @@
+﻿@model List<string>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Compliance Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Compliance Reports</h2>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            <ul class="list-group">
+                @foreach (var report in Model)
+                {
+                    <li class="list-group-item">@report</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="alert alert-info">No compliance reports available.</div>
+        }
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

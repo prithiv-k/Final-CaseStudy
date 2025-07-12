@@ -10,5 +10,6 @@ namespace DAL.DataAccess
     {
         T AddOrUpdateConfig(T config);
         T GetConfigByEmployeeId(int employeeId);
+        List<T> GetAll();
     }
 }

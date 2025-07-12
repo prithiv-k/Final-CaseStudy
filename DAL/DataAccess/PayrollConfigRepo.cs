@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.Models;
+﻿using DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.DataAccess
 {
@@ -13,19 +9,28 @@ namespace DAL.DataAccess
         {
             using (var dbContext = new EasypayContext())
             {
-                var existing = dbContext.PayrollConfigs.FirstOrDefault(p => p.EmployeeId == config.EmployeeId);
+                var existing = dbContext.PayrollConfigs
+                                        .FirstOrDefault(p => p.EmployeeId == config.EmployeeId);
+
                 if (existing != null)
                 {
+                    // Update only the fields that can be modified
                     existing.Allowances = config.Allowances;
                     existing.Deductions = config.Deductions;
                     existing.TaxRate = config.TaxRate;
+
+                    dbContext.PayrollConfigs.Update(existing);
                 }
                 else
                 {
                     dbContext.PayrollConfigs.Add(config);
                 }
+
                 dbContext.SaveChanges();
-                return config;
+
+                return dbContext.PayrollConfigs
+                                .Include(p => p.Employee) // optional if you want to return related data
+                                .FirstOrDefault(p => p.EmployeeId == config.EmployeeId);
             }
         }
 
@@ -33,7 +38,29 @@ namespace DAL.DataAccess
         {
             using (var dbContext = new EasypayContext())
             {
-                return dbContext.PayrollConfigs.FirstOrDefault(p => p.EmployeeId == employeeId);
+                return dbContext.PayrollConfigs
+                                .Include(p => p.Employee) // optional if needed
+                                .FirstOrDefault(p => p.EmployeeId == employeeId);
+            }
+        }
+
+        public PayrollConfig GetByConfigId(int configId)
+        {
+            using (var dbContext = new EasypayContext())
+            {
+                return dbContext.PayrollConfigs
+                                .Include(p => p.Employee) // optional if needed
+                                .FirstOrDefault(p => p.ConfigId == configId);
+            }
+        }
+
+        public List<PayrollConfig> GetAll()
+        {
+            using (var dbContext = new EasypayContext())
+            {
+                return dbContext.PayrollConfigs
+                                .Include(p => p.Employee) // if you want employee info in table
+                                .ToList();
             }
         }
     }

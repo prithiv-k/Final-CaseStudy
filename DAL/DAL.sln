@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL.csproj", "{2B9E3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "..\ServiceLayer\ServiceLayer.csproj", "{B45C1A26-BF64-4AFC-A3E6-11D6142A5FF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppUI", "..\AppUI\AppUI.csproj", "{7730BF45-E508-4E70-B4F1-AAF81E89F2D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B45C1A26-BF64-4AFC-A3E6-11D6142A5FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B45C1A26-BF64-4AFC-A3E6-11D6142A5FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B45C1A26-BF64-4AFC-A3E6-11D6142A5FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7730BF45-E508-4E70-B4F1-AAF81E89F2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7730BF45-E508-4E70-B4F1-AAF81E89F2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7730BF45-E508-4E70-B4F1-AAF81E89F2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7730BF45-E508-4E70-B4F1-AAF81E89F2D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,5 +10,6 @@ namespace DAL.DataAccess
     {
         T AddNotification(T notification);
         List<T> GetNotificationsByEmployeeId(int employeeId);
+        List<T> GetAll();
     }
 }

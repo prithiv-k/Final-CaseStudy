@@ -11,7 +11,7 @@ namespace DAL.DataAccess
         T AddUser(T user);
         T ValidateUser(T user);
         List<T> GetAllUsers();
-        T DeleteUser(int id); // or void DeleteUser(int id) depending on your preference
+        // or void DeleteUser(int id) depending on your preference
 
     }
 }

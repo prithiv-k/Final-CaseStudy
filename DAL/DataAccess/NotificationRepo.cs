@@ -26,5 +26,13 @@ namespace DAL.DataAccess
                 return dbContext.Notifications.Where(n => n.EmployeeId == employeeId).ToList();
             }
         }
+
+        public List<Notification> GetAll()
+        {
+            using (var dbContext = new EasypayContext())
+            {
+                return dbContext.Notifications.ToList();
+            }
+        }
     }
 }

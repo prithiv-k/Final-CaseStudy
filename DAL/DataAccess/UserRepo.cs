@@ -1,10 +1,9 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DAL.DataAccess
 {
@@ -35,21 +34,5 @@ namespace DAL.DataAccess
                 return dbContext.Users.ToList();
             }
         }
-        public User DeleteUser(int id)
-        {
-            using (var dbContext = new EasypayContext())
-            {
-                var user = dbContext.Users.Find(id);
-                if (user != null)
-                {
-                    dbContext.Users.Remove(user);
-                    dbContext.SaveChanges();
-                    return user;
-                }
-                return null;
-            }
-        }
-
-
     }
 }
