@@ -1,0 +1,127 @@
+.leave-request-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+h2, h3 {
+  color: #f7c948;
+  margin-bottom: 1.5rem;
+}
+
+/* Form styling */
+.leave-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #2a2d3e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.leave-form label {
+  margin: 0.8rem 0 0.3rem;
+  font-weight: bold;
+  color: #f7c948;
+}
+
+.leave-form input[type="date"] {
+  background-color: #1c1e2a;
+  color: #fff;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  margin-top: 1.2rem;
+  background-color: #f7c948;
+  color: #000;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #ffe082;
+}
+
+/* Success/Error messages */
+.success-msg, .error-msg {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  margin: 0.8rem 0 1.2rem;
+}
+
+.success-msg {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.error-msg {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Table styling */
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2a2d3e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.03);
+}
+
+.leave-table th {
+  background-color: #000;
+  color: #f7c948;
+  padding: 1rem;
+  text-align: left;
+}
+
+.leave-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+  color: #ffffff;
+}
+
+/* Status badge */
+.status-badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.status-badge.pending {
+  background-color: #f7c948;
+  color: #000;
+}
+
+.status-badge.approved {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.status-badge.rejected {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* No requests message */
+.no-requests {
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  color: #ccc;
+}

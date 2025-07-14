@@ -3,7 +3,6 @@ using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize(Roles = "Admin")]
 [ApiVersion("4.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiController]
@@ -11,58 +10,64 @@ public class PayrollController : ControllerBase
 {
     private readonly IPayrollRepo<Payroll> _repo;
 
-    public PayrollController(IPayrollRepo<Payroll> repo) // Dependency Injection for Payroll Repository
+    public PayrollController(IPayrollRepo<Payroll> repo)
     {
         _repo = repo;
     }
 
-    [HttpPost("generate")] // Endpoint to generate payroll
+    [Authorize(Roles = "Admin,Manager")]
+    [HttpPost("generate")]
     public IActionResult Generate(Payroll payroll)
     {
         var result = _repo.GeneratePayroll(payroll);
         return Ok(result);
     }
 
-    [HttpPost("Add")] // Endpoint to add a new payroll record
+    [Authorize(Roles = "Admin,Manager")]
+    [HttpPost("Add")]
     public IActionResult Add(Payroll payroll)
     {
         var result = _repo.AddPayroll(payroll);
         return Ok(result);
     }
 
-    [HttpPut("Update")] // Endpoint to update an existing payroll record
+    [Authorize(Roles = "Admin,Manager")]
+    [HttpPut("Update")]
     public IActionResult Update(Payroll payroll)
     {
         var result = _repo.UpdatePayroll(payroll);
         return Ok(result);
     }
 
-    [HttpDelete("Delete")] // Endpoint to delete a payroll record
+    [Authorize(Roles = "Admin,Manager")]
+    [HttpDelete("Delete")]
     public IActionResult Delete(Payroll payroll)
     {
         var result = _repo.DeletePayroll(payroll);
         return Ok(result);
     }
 
-    [HttpGet("employee/{id}")] // Endpoint to get payroll by employee ID
+    [Authorize(Roles = "Employee")]
+    [HttpGet("employee/{id}")]
     public IActionResult GetByEmployee(int id)
     {
         var result = _repo.GetPayrollsByEmployeeId(id);
         return Ok(result);
     }
 
-    [HttpGet("GetAll")] // Endpoint to get all payroll records
+    [Authorize(Roles = "Admin,Manager")]
+    [HttpGet("GetAll")]
     public IActionResult GetAll()
     {
         var result = _repo.GetAllPayrolls();
         return Ok(result);
     }
 
-    [HttpGet("Verify/{id}")] // Endpoint to verify payroll by ID
+    [Authorize(Roles = "Admin,Manager")]
+    [HttpGet("Verify/{id}")]
     public IActionResult Verify(int id)
     {
         var result = _repo.VerifyPayroll(id);
         return Ok(result);
     }
-
 }

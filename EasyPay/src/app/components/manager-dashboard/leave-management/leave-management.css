@@ -1,0 +1,88 @@
+.leave-requests-container {
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+h2 {
+  color: #f7c948;
+  margin-bottom: 1rem;
+}
+
+.leave-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2a2d3e;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.leave-table th {
+  background-color: #000;
+  color: #f7c948;
+  padding: 1rem;
+}
+
+.leave-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #444;
+  text-align: center;
+  color: #fff;
+}
+
+/* Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.approve-btn,
+.reject-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.approve-btn {
+  background-color: #4caf50;
+}
+.approve-btn:hover:enabled {
+  background-color: #43a047;
+  transform: scale(1.05);
+}
+
+.reject-btn {
+  background-color: #f44336;
+}
+.reject-btn:hover:enabled {
+  background-color: #e53935;
+  transform: scale(1.05);
+}
+
+.approve-btn:disabled,
+.reject-btn:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.success-msg {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.error-msg {
+  background-color: #f44336;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}

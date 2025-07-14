@@ -1,0 +1,51 @@
+<div class="employee-management-container">
+  <h2>Employee Management</h2>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+  <div *ngIf="success" class="success-msg">{{ success }}</div>
+
+  <form (ngSubmit)="saveEmployee()" class="employee-form">
+    <input type="text" placeholder="Name" [(ngModel)]="newEmployee.name" name="name" required />
+    <input type="email" placeholder="Email" [(ngModel)]="newEmployee.email" name="email" required />
+    <input type="text" placeholder="Department" [(ngModel)]="newEmployee.department" name="department" required />
+    <select [(ngModel)]="newEmployee.role" name="role" required>
+      <option value="" disabled selected>Select Role</option>
+      <option value="Admin">Admin</option>
+      <option value="Manager">Manager</option>
+      <option value="Employee">Employee</option>
+    </select>
+
+    <button type="submit">{{ editing ? 'Update' : 'Add' }}</button>
+    <button type="button" *ngIf="editing" (click)="cancel()">Cancel</button>
+  </form>
+
+  <hr />
+
+  <table class="employee-table" *ngIf="employees.length">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of employees">
+        <td>{{ emp.employeeId }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.email }}</td>
+        <td>{{ emp.department }}</td>
+        <td>{{ emp.role }}</td>
+        <td class="action-buttons">
+          <button class="edit-btn" (click)="edit(emp)">Edit</button>
+          <button class="delete-btn" (click)="delete(emp)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!employees.length">No employees found.</p>
+</div>

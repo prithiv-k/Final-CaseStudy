@@ -11,40 +11,52 @@ public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeRepo<Employee> _repo;
 
-    public EmployeeController(IEmployeeRepo<Employee> repo) // Dependency Injection for Employee Repository
+    public EmployeeController(IEmployeeRepo<Employee> repo)
     {
         _repo = repo;
     }
 
-    [HttpGet("GetAll")] // Get all employees
+    [HttpGet("GetAll")]
     public IActionResult GetAll()
     {
         var result = _repo.GetAllEmployees();
         return Ok(result);
     }
 
-    [HttpGet("{id}/GetById")] // Get employee by ID
+    [HttpGet("{id}/GetById")]
     public IActionResult GetById(int id)
     {
         var result = _repo.GetEmployeeById(id);
         return Ok(result);
     }
 
-    [HttpPost("Add")] // Add a new employee
+    // ✅ Only keep this one GetByEmail endpoint
+    [Authorize]
+    [HttpGet("by-email/{email}")]
+    public IActionResult GetByEmail(string email)
+    {
+        var result = _repo.GetEmployeeByEmail(email);
+        if (result == null)
+            return NotFound($"No employee found with email: {email}");
+
+        return Ok(result);
+    }
+
+    [HttpPost("Add")]
     public IActionResult Add(Employee emp)
     {
         var result = _repo.AddEmployee(emp);
         return Ok(result);
     }
 
-    [HttpPut("Update")] // Update an existing employee
+    [HttpPut("Update")]
     public IActionResult Update(Employee emp)
     {
         var result = _repo.UpdateEmployee(emp);
         return Ok(result);
     }
 
-    [HttpDelete("Delete")] // Delete an employee
+    [HttpDelete("Delete")]
     public IActionResult Delete(Employee emp)
     {
         var result = _repo.DeleteEmployee(emp);

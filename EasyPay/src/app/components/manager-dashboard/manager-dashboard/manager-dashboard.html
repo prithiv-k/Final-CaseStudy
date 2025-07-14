@@ -1,0 +1,17 @@
+<div class="manager-dashboard">
+  <header class="dashboard-header">
+    <div class="brand">Manager Panel</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a routerLink="employees">Manage Employees</a></li>
+        <li><a routerLink="leaves">Leave Requests</a></li>
+        <li><a routerLink="notifications">Send Notification</a></li>
+      </ul>
+    </nav>
+    <button (click)="logout()" class="logout-btn">Logout</button>
+  </header>
+
+  <main class="dashboard-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

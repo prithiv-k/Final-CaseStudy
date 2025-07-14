@@ -1,0 +1,32 @@
+<div class="leave-requests-container">
+  <h2>Manage Leave Requests</h2>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+  <div *ngIf="success" class="success-msg">{{ success }}</div>
+
+  <table class="leave-table" *ngIf="requests.length">
+    <thead>
+      <tr>
+        <th>Request ID</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of requests">
+        <td>{{ r.leaveRequestId }}</td>
+        <td>{{ r.startDate | date }}</td>
+        <td>{{ r.endDate | date }}</td>
+        <td>{{ r.status }}</td>
+        <td class="action-buttons">
+          <button class="approve-btn" (click)="updateStatus(r, 'Approved')" [disabled]="r.status === 'Approved'">Approve</button>
+          <button class="reject-btn" (click)="updateStatus(r, 'Rejected')" [disabled]="r.status === 'Rejected'">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!requests.length && !error">No leave requests to display.</p>
+</div>

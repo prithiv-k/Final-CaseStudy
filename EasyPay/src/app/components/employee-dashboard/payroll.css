@@ -1,0 +1,56 @@
+/* Container */
+.payroll-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  color: #f7c948;
+  margin-bottom: 1.5rem;
+}
+
+/* Error message */
+.error-msg {
+  background-color: #f44336;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Table styling */
+.payroll-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2a2d3e;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.03);
+  margin-top: 1rem;
+}
+
+.payroll-table th {
+  background-color: #000;
+  color: #f7c948;
+  padding: 1rem;
+  text-align: left;
+  font-weight: bold;
+}
+
+.payroll-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #444;
+  color: #ffffff;
+}
+
+/* No data message */
+.no-data {
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  color: #ccc;
+}

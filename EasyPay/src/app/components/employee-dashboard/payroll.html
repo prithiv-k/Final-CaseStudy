@@ -1,0 +1,31 @@
+<div class="payroll-container">
+  <h2>My Payroll</h2>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <!-- Payroll Table -->
+  <table class="payroll-table" *ngIf="payrolls.length">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Salary</th>
+        <th>Bonus</th>
+        <th>Deductions</th>
+        <th>Net</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of payrolls">
+        <td>{{ p.payrollDate | date: 'mediumDate' }}</td>
+        <td>{{ p.salary | currency }}</td>
+        <td>{{ p.bonus | currency }}</td>
+        <td>{{ p.deductions | currency }}</td>
+        <td>{{ p.netSalary | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Fallback -->
+  <p *ngIf="!payrolls.length && !error" class="no-data">No payroll data available.</p>
+</div>

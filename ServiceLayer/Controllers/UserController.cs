@@ -9,22 +9,23 @@ using System.Text;
 
 namespace ServiceLayer.Controllers
 {
-    [Authorize(Roles = "Admin,Manager,Employee")]
     [ApiVersion("1.0")]
-    [ApiVersion("1")] // <-- Add this to support both
+    [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserRepo<User> _repo;
+        private readonly IEmployeeRepo<Employee> _employeeRepo; // ✅ Inject EmployeeRepo
         private readonly IConfiguration _config;
 
-        public UserController(IUserRepo<User> repo, IConfiguration config) // Constructor injection for repository and configuration
+        public UserController(IUserRepo<User> repo, IEmployeeRepo<Employee> employeeRepo, IConfiguration config)
         {
             _repo = repo;
+            _employeeRepo = employeeRepo;
             _config = config;
         }
 
-        // Login
         [AllowAnonymous]
         [HttpPost("ValidateUser")]
         public IActionResult Validate([FromBody] User user)
@@ -33,11 +34,18 @@ namespace ServiceLayer.Controllers
             if (result == null)
                 return Unauthorized("Invalid credentials");
 
-            var token = GenerateJwtToken(result);
-            return Ok(new { token, role = result.Role });
+            var employee = _employeeRepo.GetAllEmployees()
+                .FirstOrDefault(e => e.Email == result.Email);
+
+            var token = GenerateJwtToken(result, employee?.EmployeeId ?? 0);
+            return Ok(new
+            {
+                token,
+                role = result.Role
+            });
         }
 
-        // Register new user
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPost("Add")]
         public IActionResult Add(User user)
         {
@@ -45,7 +53,7 @@ namespace ServiceLayer.Controllers
             return Ok(addedUser);
         }
 
-        // Get all users
+        [Authorize(Roles = "Admin,Manager,Employee")]
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
@@ -53,17 +61,25 @@ namespace ServiceLayer.Controllers
             return Ok(users);
         }
 
-        // Non-action method to generate JWT
+        [HttpOptions("ValidateUser")]
+        [AllowAnonymous]
+        public IActionResult ValidateUserOptions()
+        {
+            return Ok();
+        }
+
+        // 🔐 JWT Generator with employeeId included
         [NonAction]
-        private string GenerateJwtToken(User user)
+        private string GenerateJwtToken(User user, int employeeId)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("employeeId", employeeId.ToString()) // ✅ Added here
             };
 
             var token = new JwtSecurityToken(
@@ -71,7 +87,7 @@ namespace ServiceLayer.Controllers
                 audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: credentials
+                signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -13,5 +13,6 @@ namespace DAL.DataAccess
         T DeleteEmployee(T employee);
         T GetEmployeeById(int id);
         List<T> GetAllEmployees();
+        T GetEmployeeByEmail(string email);
     }
 }

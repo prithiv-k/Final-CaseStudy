@@ -196,6 +196,36 @@ namespace DAL.Migrations
                     b.ToTable("Payroll");
                 });
 
+            modelBuilder.Entity("DAL.Models.PayrollConfig", b =>
+                {
+                    b.Property<int>("ConfigId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigId"));
+
+                    b.Property<decimal>("Allowances")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Deductions")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TaxRate")
+                        .HasPrecision(5, 2)
+                        .HasColumnType("decimal(5,2)");
+
+                    b.HasKey("ConfigId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("PayrollConfigs");
+                });
+
             modelBuilder.Entity("DAL.Models.Timesheet", b =>
                 {
                     b.Property<int>("TimesheetId")
@@ -233,6 +263,9 @@ namespace DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -246,36 +279,6 @@ namespace DAL.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("PayrollConfig", b =>
-                {
-                    b.Property<int>("ConfigId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigId"));
-
-                    b.Property<decimal>("Allowances")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Deductions")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TaxRate")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
-                    b.HasKey("ConfigId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("PayrollConfigs");
                 });
 
             modelBuilder.Entity("DAL.Models.LeaveRequest", b =>
@@ -311,7 +314,7 @@ namespace DAL.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("DAL.Models.Timesheet", b =>
+            modelBuilder.Entity("DAL.Models.PayrollConfig", b =>
                 {
                     b.HasOne("DAL.Models.Employee", "Employee")
                         .WithMany()
@@ -322,7 +325,7 @@ namespace DAL.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("PayrollConfig", b =>
+            modelBuilder.Entity("DAL.Models.Timesheet", b =>
                 {
                     b.HasOne("DAL.Models.Employee", "Employee")
                         .WithMany()

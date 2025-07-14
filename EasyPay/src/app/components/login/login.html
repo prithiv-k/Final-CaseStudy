@@ -1,0 +1,29 @@
+<div class="login-card">
+  <div class="icon">
+    <i class="bi bi-lock-fill"></i>
+  </div>
+  <h3>Login</h3>
+  <p>Secure Payroll Login</p>
+
+  <form (ngSubmit)="login()">
+    <label>Email</label>
+    <input type="email" [(ngModel)]="user.email" name="email" required />
+
+    <label>Password</label>
+    <input type="password" [(ngModel)]="user.password" name="password" required />
+
+    <label>Role</label>
+    <select [(ngModel)]="user.role" name="role" required>
+      <option value="" disabled selected>Select Role</option>
+      <option value="Admin">Admin</option>
+      <option value="Manager">Manager</option>
+      <option value="Employee">Employee</option>
+    </select>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+</div>

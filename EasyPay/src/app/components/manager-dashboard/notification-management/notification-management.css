@@ -1,0 +1,88 @@
+/* Container for the whole section */
+.notification-container {
+  padding: 2rem;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Horizontally center */
+}
+
+/* Form block */
+.notification-form {
+  background-color: #2a2d3e;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Labels */
+.notification-form label {
+  font-weight: bold;
+  color: #f5c518; /* Yellowish theme color */
+}
+
+/* Inputs and textarea */
+.notification-form input,
+.notification-form textarea {
+  background-color: #1e1f2b;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Button */
+.notification-form button {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notification-form button:hover {
+  background-color: #27ae60;
+}
+
+/* Success and error messages */
+.success {
+  color: #2ecc71;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.error {
+  color: #e74c3c;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Notifications list */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 700px;
+}
+
+li {
+  background-color: #1e1f2b;
+  color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
